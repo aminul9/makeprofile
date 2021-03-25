@@ -1,13 +1,22 @@
 <html>
     <style>
          table, th, td {
-             border: 1px solid black; }   
+             border: 0px ; }   
     </style>
 
     <body> 
-     <?php include 'header.php'; ?>
+     <?php include 'header.php'; 
+     session_start();
 
-     <table style="width:70%"  >
+     if($_SESSION['username'])
+     {
+        //echo  $_SESSION['username'];
+     
+
+
+     ?>
+
+     <table style="width:50%"  class="content" >
             <tr>
                 <th id="Name">Name</th>
                 <th id="ParentName">ParentName</th>
@@ -15,6 +24,8 @@
                 <th id="Dept ">Dept </th>
                 <th id="ST_ID ">ST_ID </th>
                 <th id="mail">mail </th>
+                <th id="Action">Action </th>
+                 <th id="password">Password </th>
                 
             </tr>
        
@@ -37,6 +48,7 @@
             die("Connection failed: " . $conn->connect_error);
             }
 
+                            //<a href="display?data=data1">link1</a>
             $sql = "SELECT * FROM student";
             $result = $conn->query($sql);
 
@@ -45,14 +57,20 @@
             while($row = $result->fetch_assoc()) {   ?>
 
 
-                    <tr>
+                    <tr style="background-color: #c6c8c7">
                         <th id="Name">     <?php  echo $row['Name']; ?>               </th>
                         <th id="ParentName">    <?php  echo $row['ParentName']; ?>        </th>
                         <th id="UniversityName">    <?php  echo $row['UniversityName']; ?>     </th>
                         <th id="Dept">     <?php  echo $row['Dept']; ?>               </th>
                         <th id="ST_ID">    <?php  echo $row['ST_ID']; ?>     </th>
                         <th id="mail">     <?php  echo $row['mail']; ?>               </th>
-                    <tr>
+                        <th id="Action">   <a href=" <?php echo "viewprofile.php?MAIL=".$row['mail'];   ?>    " >View Profile</a>               </th>
+                         <th id="Action">      <?php  echo $row['password']; ?>         </th>
+
+
+
+
+                    </tr>
                
 
 
@@ -60,14 +78,28 @@
             <?php
 
             }
-            } else {
-            echo "0 results";
-            }
+
+
+                
+
+
+            } 
+
+
             $conn->close();
+
+           
+           
+        }
+
+        else
+            header("Location:login.php"); 
+
             ?> 
 
 
     </table>
+
 
 
     </body>
